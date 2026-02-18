@@ -6,9 +6,14 @@ import { useRouter } from "next/navigation";
 type Order = {
     _id: string;
     amount: number;
-    razorpay_payment_id: string;
     status: string;
     createdAt: string;
+    items: {
+        name: string;
+        price: number;
+        image: string;
+        quantity: number;
+    }[];
 };
 
 export default function OrdersPage() {
@@ -36,11 +41,7 @@ export default function OrdersPage() {
 
         const data = await res.json();
 
-        if (Array.isArray(data)) {
-            setOrders(data);
-        } else {
-            setOrders([]);
-        }
+        if (Array.isArray(data)) setOrders(data);
 
         setLoading(false);
     };
@@ -48,35 +49,41 @@ export default function OrdersPage() {
     if (loading) return <div className="p-6">Loading...</div>;
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
+        <div className="max-w-5xl mx-auto p-6">
             <h1 className="text-3xl font-bold mb-6">Your Orders</h1>
 
             {orders.length === 0 && <p>No orders yet.</p>}
 
             {orders.map((order) => (
-                <div
-                    key={order._id}
-                    className="border rounded p-4 mb-4"
-                >
-                    <p>
-                        <strong>Order ID:</strong> {order._id}
-                    </p>
+                <div key={order._id} className="border rounded p-4 mb-6">
+                    <div className="flex justify-between mb-3">
+                        <p className="font-semibold">
+                            Order #{order._id.slice(-6)}
+                        </p>
+                        <p>₹{order.amount}</p>
+                    </div>
 
-                    <p>
-                        <strong>Amount:</strong> ₹{order.amount}
-                    </p>
-
-                    <p>
-                        <strong>Status:</strong> {order.status}
-                    </p>
-
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 mb-4">
                         {new Date(order.createdAt).toLocaleString()}
                     </p>
 
-                    <p className="text-xs text-gray-400 mt-1">
-                        Payment ID: {order.razorpay_payment_id}
-                    </p>
+                    {order.items.map((item, i) => (
+                        <div key={i} className="flex gap-4 mb-3">
+                            <img
+                                src={item.image}
+                                className="w-16 h-16 object-cover rounded"
+                            />
+
+                            <div className="flex-1">
+                                <p className="font-medium">{item.name}</p>
+                                <p className="text-sm text-gray-500">
+                                    Qty: {item.quantity}
+                                </p>
+                            </div>
+
+                            <p>₹{item.price * item.quantity}</p>
+                        </div>
+                    ))}
                 </div>
             ))}
         </div>

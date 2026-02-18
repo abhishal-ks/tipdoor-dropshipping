@@ -24,9 +24,18 @@ const loadRazorpay = () => {
 };
 
 export default function CheckoutPage() {
+    const router = useRouter();
+
     const [cart, setCart] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
+    const [address, setAddress] = useState({
+        name: "",
+        phone: "",
+        address: "",
+        city: "",
+        state: "",
+        pincode: "",
+    });
 
     useEffect(() => {
         fetchCart();
@@ -36,9 +45,7 @@ export default function CheckoutPage() {
         const token = localStorage.getItem("token");
 
         const res = await fetch("/api/cart", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
         });
 
         const data = await res.json();
@@ -68,12 +75,9 @@ export default function CheckoutPage() {
 
         const loaded = await loadRazorpay();
 
-        if (!loaded) {
-            alert("Razorpay SDK failed to load");
-            return;
-        }
+        if (!loaded) return alert("Razorpay SDK failed to load");
 
-        // Create order
+        // 📝 Create order
         const orderRes = await fetch("/api/payment/create-order", {
             method: "POST",
             headers: {
@@ -116,10 +120,12 @@ export default function CheckoutPage() {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
+                // razorpay_order_id: response.razorpay_order_id,
+                // razorpay_payment_id: response.razorpay_payment_id,
+                // razorpay_signature: response.razorpay_signature,
+                ...response,
                 amount: totalAmount,
+                shippingAddress: address
             }),
         });
 
@@ -136,34 +142,39 @@ export default function CheckoutPage() {
     if (loading) return <div className="p-6">Loading...</div>;
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+        <div className="max-w-5xl mx-auto p-6 grid md:grid-cols-2 gap-8">
+            <div>
+                <h2 className="text-xl font-bold mb-4">Shipping Address</h2>
 
-            {cart.map((item) => (
-                <div
-                    key={item._id}
-                    className="flex items-center gap-4 border-b py-4"
-                >
-                    <img
-                        src={item.product.image}
-                        className="w-20 h-20 object-cover rounded"
+                {Object.keys(address).map((key) => (
+                    <input
+                        key={key}
+                        placeholder={key}
+                        className="border p-3 mb-3 w-full rounded"
+                        onChange={(e) =>
+                            setAddress({ ...address, [key]: e.target.value })
+                        }
                     />
-                    <div className="flex-1">
-                        <p className="font-semibold">{item.product.name}</p>
-                        <p className="text-sm text-gray-500">
-                            Qty: {item.quantity}
-                        </p>
-                    </div>
-                    <p>₹{item.product.price * item.quantity}</p>
-                </div>
-            ))}
+                ))}
+            </div>
 
-            <div className="mt-6 flex justify-between items-center">
-                <h2 className="text-xl font-bold">Total: ₹{totalAmount}</h2>
+            <div>
+                <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+
+                {cart.map((item) => (
+                    <div key={item._id} className="flex justify-between mb-2">
+                        <span>{item.product.name}</span>
+                        <span>₹{item.product.price * item.quantity}</span>
+                    </div>
+                ))}
+
+                <hr className="my-3" />
+
+                <p className="font-bold mb-4">Total: ₹{totalAmount}</p>
 
                 <button
                     onClick={handleCheckout}
-                    className="bg-[#5e17eb] text-white px-6 py-3 rounded hover:bg-[#4b12c2]"
+                    className="bg-[#5e17eb] text-white px-6 py-3 rounded"
                 >
                     Pay Now
                 </button>

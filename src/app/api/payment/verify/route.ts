@@ -18,6 +18,7 @@ export async function POST(req: Request) {
             razorpay_payment_id,
             razorpay_signature,
             amount,
+            shippingAddress
         } = await req.json();
 
         const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -36,12 +37,25 @@ export async function POST(req: Request) {
 
         await connectDB();
 
+        const cartItems = await Cart.find({ user: user.id }).populate("product");
+
+        const items = cartItems.map((item: any) => ({
+            productId: item.product._id,
+            name: item.product.name,
+            price: item.product.price,
+            image: item.product.image,
+            quantity: item.quantity,
+        }));
+
         const order = await Order.create({
             user: user.id,
+            items,
+            amount,
+            shippingAddress,
             razorpay_order_id,
             razorpay_payment_id,
-            amount,
         });
+
 
         // 🧹 Clear the user's cart after successful payment
         await Cart.deleteMany({ user: user.id });
