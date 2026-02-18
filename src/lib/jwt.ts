@@ -4,6 +4,7 @@ const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export interface UserJwtPayload extends JwtPayload {
     id: string;
+    role: string;
 }
 
 export function signToken(payload: UserJwtPayload) {
