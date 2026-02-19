@@ -28,7 +28,10 @@ export async function POST(req: Request) {
             password: hashed,
         });
 
-        const token = signToken({ id: user._id });
+        const token = signToken({
+            id: user._id.toString(),
+            role: user.role,
+        });
 
         return NextResponse.json({ token });
     } catch {
