@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -53,6 +54,10 @@ export default function LoginClient() {
             >
                 Login
             </button>
+
+            <p className="mt-4 text-center text-sm text-gray-500">
+                Don't have an account? <Link href="/register" className="text-[#5e17eb]">Register</Link>
+            </p>
         </div>
     );
 }
