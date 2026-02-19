@@ -46,44 +46,68 @@ export default function OrdersPage() {
         setLoading(false);
     };
 
-    if (loading) return <div className="p-6">Loading...</div>;
+    if (loading)
+        return (
+            <div className="flex min-h-[60vh] items-center justify-center">
+                <div className="loading-spinner" />
+            </div>
+        );
 
     return (
-        <div className="max-w-5xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Your Orders</h1>
+        <div className="max-w-5xl mx-auto px-6 py-12">
+            <h1 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
+                <span className="w-1 h-8 bg-[var(--primary)] rounded-full" />
+                Your Orders
+            </h1>
 
-            {orders.length === 0 && <p>No orders yet.</p>}
+            {orders.length === 0 && (
+                <div className="card p-12 text-center">
+                    <p className="text-gray-600">No orders yet.</p>
+                </div>
+            )}
 
             {orders.map((order) => (
-                <div key={order._id} className="border rounded p-4 mb-6">
-                    <div className="flex justify-between mb-3">
-                        <p className="font-semibold">
+                <div key={order._id} className="card p-6 mb-6">
+                    <div className="flex justify-between items-start mb-4">
+                        <p className="font-semibold text-gray-900">
                             Order #{order._id.slice(-6)}
                         </p>
-                        <p>₹{order.amount}</p>
+                        <p className="text-lg font-bold text-[var(--primary)]">
+                            ₹{order.amount}
+                        </p>
                     </div>
 
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="text-sm text-gray-500 mb-6">
                         {new Date(order.createdAt).toLocaleString()}
                     </p>
 
-                    {order.items.map((item, i) => (
-                        <div key={i} className="flex gap-4 mb-3">
-                            <img
-                                src={item.image}
-                                className="w-16 h-16 object-cover rounded"
-                            />
+                    <div className="space-y-3">
+                        {order.items.map((item, i) => (
+                            <div
+                                key={i}
+                                className="flex gap-4 items-center py-2"
+                            >
+                                <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="w-16 h-16 object-cover rounded-lg"
+                                />
 
-                            <div className="flex-1">
-                                <p className="font-medium">{item.name}</p>
-                                <p className="text-sm text-gray-500">
-                                    Qty: {item.quantity}
+                                <div className="flex-1 min-w-0">
+                                    <p className="font-medium text-gray-900">
+                                        {item.name}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                        Qty: {item.quantity}
+                                    </p>
+                                </div>
+
+                                <p className="font-medium">
+                                    ₹{item.price * item.quantity}
                                 </p>
                             </div>
-
-                            <p>₹{item.price * item.quantity}</p>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             ))}
         </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Product = {
     _id: string;
@@ -49,30 +50,55 @@ export default function ProductPage() {
         router.push("/cart");
     };
 
-    if (loading) return <div className="p-6">Loading...</div>;
-    if (!product) return <div className="p-6">Product not found</div>;
+    if (loading)
+        return (
+            <div className="flex min-h-[60vh] items-center justify-center">
+                <div className="loading-spinner" />
+            </div>
+        );
+    if (!product)
+        return (
+            <div className="max-w-5xl mx-auto p-6 text-center">
+                <p className="text-gray-600 mb-4">Product not found</p>
+                <Link
+                    href="/"
+                    className="text-[var(--primary)] font-medium hover:underline"
+                >
+                    Back to shop
+                </Link>
+            </div>
+        );
 
     return (
-        <div className="max-w-5xl mx-auto p-6 grid md:grid-cols-2 gap-8">
-            <img
-                src={product.image}
-                className="w-full h-[400px] object-cover rounded"
-            />
+        <div className="max-w-5xl mx-auto px-6 py-12">
+            <div className="card overflow-hidden grid md:grid-cols-2 gap-8 p-0">
+                <div className="bg-gray-100">
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-[400px] object-cover"
+                    />
+                </div>
 
-            <div>
-                <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
-                <p className="text-2xl text-[#5e17eb] font-semibold mb-4">
-                    ₹{product.price}
-                </p>
+                <div className="p-8 flex flex-col">
+                    <h1 className="text-3xl font-bold mb-3 text-gray-900">
+                        {product.name}
+                    </h1>
+                    <p className="text-2xl text-[var(--primary)] font-semibold mb-4">
+                        ₹{product.price}
+                    </p>
 
-                <p className="text-gray-600 mb-6">{product.description}</p>
+                    <p className="text-gray-600 mb-6 flex-1">
+                        {product.description || "No description available."}
+                    </p>
 
-                <button
-                    onClick={addToCart}
-                    className="bg-[#5e17eb] text-white px-6 py-3 rounded hover:bg-[#4b12c2]"
-                >
-                    Add to Cart
-                </button>
+                    <button
+                        onClick={addToCart}
+                        className="btn-primary w-full md:w-auto"
+                    >
+                        Add to Cart
+                    </button>
+                </div>
             </div>
         </div>
     );

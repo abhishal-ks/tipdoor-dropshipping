@@ -15,7 +15,15 @@ export default function ClientLayout({
     return (
         <>
             {!isAdmin && <Navbar />}
-            <main className="min-h-screen">{children}</main>
+            <main
+                className={`min-h-screen ${
+                    isAdmin
+                        ? "bg-gray-50"
+                        : "bg-gradient-to-b from-[#5f18eb15] via-transparent to-[#5f18eb08]"
+                }`}
+            >
+                {children}
+            </main>
             {!isAdmin && <Footer />}
         </>
     );

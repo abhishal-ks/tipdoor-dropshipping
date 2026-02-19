@@ -48,49 +48,65 @@ export default function CartPage() {
         0
     );
 
-    if (loading) return <div className="p-6">Loading...</div>;
+    if (loading)
+        return (
+            <div className="flex min-h-[60vh] items-center justify-center">
+                <div className="loading-spinner" />
+            </div>
+        );
 
     return (
-        <div className="max-w-5xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
+        <div className="max-w-5xl mx-auto px-6 py-12">
+            <h1 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
+                <span className="w-1 h-8 bg-[var(--primary)] rounded-full" />
+                Your Cart
+            </h1>
 
             {cart.length === 0 && (
-                <p>
-                    Cart empty.{" "}
-                    <Link href="/" className="text-[#5e17eb] underline">
+                <div className="card p-12 text-center">
+                    <p className="text-gray-600 mb-4">Your cart is empty.</p>
+                    <Link
+                        href="/"
+                        className="inline-block text-[var(--primary)] font-medium hover:underline"
+                    >
                         Continue shopping
                     </Link>
-                </p>
+                </div>
             )}
 
             {cart.map((item) => (
                 <div
                     key={item._id}
-                    className="flex gap-4 items-center border-b py-4"
+                    className="card flex gap-6 items-center p-4 mb-4"
                 >
                     <img
                         src={item.product.image}
-                        className="w-20 h-20 object-cover rounded"
+                        alt={item.product.name}
+                        className="w-24 h-24 object-cover rounded-lg"
                     />
 
-                    <div className="flex-1">
-                        <p className="font-semibold">{item.product.name}</p>
+                    <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900">
+                            {item.product.name}
+                        </p>
                         <p className="text-sm text-gray-500">
                             Qty: {item.quantity}
                         </p>
                     </div>
 
-                    <p>₹{item.product.price * item.quantity}</p>
+                    <p className="font-semibold text-[var(--primary)]">
+                        ₹{item.product.price * item.quantity}
+                    </p>
                 </div>
             ))}
 
             {cart.length > 0 && (
-                <div className="mt-6 flex justify-between items-center">
+                <div className="card mt-6 p-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <h2 className="text-xl font-bold">Total: ₹{total}</h2>
 
                     <button
                         onClick={() => router.push("/checkout")}
-                        className="bg-[#5e17eb] text-white px-6 py-3 rounded hover:bg-[#4b12c2]"
+                        className="btn-primary"
                     >
                         Checkout
                     </button>

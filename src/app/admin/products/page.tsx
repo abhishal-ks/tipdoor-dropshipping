@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function AdminProducts() {
     const [products, setProducts] = useState<any[]>([]);
@@ -84,7 +85,6 @@ export default function AdminProducts() {
 
         fetchProducts();
 
-        // Show an alert with the product name that was deleted
         const deletedProduct = products.find((p) => p._id === id);
         if (deletedProduct) {
             alert(`Deleted product: ${deletedProduct.name}`);
@@ -92,57 +92,79 @@ export default function AdminProducts() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6">Admin Products</h1>
+        <div className="max-w-6xl mx-auto px-6 py-8">
+            <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
+                <div className="flex items-center gap-4">
+                    <Link
+                        href="/admin"
+                        className="text-[var(--primary)] font-medium hover:underline"
+                    >
+                        ← Dashboard
+                    </Link>
+                    <span className="text-gray-300">|</span>
+                    <h1 className="text-2xl font-bold text-gray-900">
+                        Admin Products
+                    </h1>
+                </div>
+            </header>
 
-            {/* ➕ Add Product */}
-            <div className="border p-4 mb-6 rounded">
-                <h2 className="font-semibold mb-3">Add Product</h2>
+            {/* Add Product */}
+            <div className="card p-6 mb-8">
+                <h2 className="text-lg font-semibold mb-4 text-gray-900">
+                    Add Product
+                </h2>
 
                 {["name", "price", "description"].map((f) => (
                     <input
                         key={f}
-                        placeholder={f}
+                        placeholder={f.charAt(0).toUpperCase() + f.slice(1)}
                         value={(form as any)[f]}
                         onChange={(e) =>
                             setForm({ ...form, [f]: e.target.value })
                         }
-                        className="border p-2 mb-2 w-full rounded"
+                        className="input-field mb-4"
                     />
                 ))}
 
                 <input
                     type="file"
+                    accept="image/*"
                     onChange={(e: any) =>
                         setForm({ ...form, file: e.target.files[0] })
                     }
-                    className="border p-2 mb-2 w-full rounded"
+                    className="input-field mb-4"
                 />
 
-                <button
-                    onClick={createProduct}
-                    className="bg-[#5e17eb] text-white px-4 py-2 rounded"
-                >
+                <button onClick={createProduct} className="btn-primary">
                     Create
                 </button>
             </div>
 
             {/* Products List */}
+            <h2 className="text-lg font-semibold mb-4 text-gray-900">
+                Products
+            </h2>
             {products.map((p) => (
                 <div
                     key={p._id}
-                    className="flex gap-4 items-center border p-3 mb-3 rounded"
+                    className="card flex gap-4 items-center p-4 mb-4"
                 >
-                    <img src={p.image} className="w-20 h-20 object-cover" />
+                    <img
+                        src={p.image}
+                        alt={p.name}
+                        className="w-20 h-20 object-cover rounded-lg"
+                    />
 
-                    <div className="flex-1">
-                        <p className="font-semibold">{p.name}</p>
-                        <p>₹{p.price}</p>
+                    <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900">{p.name}</p>
+                        <p className="text-[var(--primary)] font-medium">
+                            ₹{p.price}
+                        </p>
                     </div>
 
                     <button
                         onClick={() => deleteProduct(p._id)}
-                        className="text-red-500 cursor-pointer hover:bg-red-500 hover:text-white px-2.5 py-1 rounded-xl"
+                        className="text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg font-medium transition-colors"
                     >
                         Delete
                     </button>

@@ -31,41 +31,55 @@ export default function RegisterClient() {
     };
 
     return (
-        <div className="max-w-md mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-4">Register</h1>
-
-            <input
-                className="border p-2 mb-2 w-full"
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-
-            <input
-                className="border p-2 mb-2 w-full"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-                className="border p-2 mb-4 w-full"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button
-                onClick={handleRegister}
-                className="bg-[#5e17eb] text-white w-full py-2 rounded"
+        <div className="min-h-[70vh] flex items-center justify-center px-6 py-12">
+            <div
+                className="card p-8 w-full max-w-md"
+                style={{ maxWidth: "28rem" }}
             >
-                Register
-            </button>
+                <h1 className="text-2xl font-bold mb-6 text-gray-900">
+                    Register
+                </h1>
 
-            <p className="mt-4 text-center text-sm text-gray-500">
-                Already have an account? <Link href="/login" className="text-[#5e17eb]">Login</Link>
-            </p>
+                <input
+                    className="input-field mb-4"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+
+                <input
+                    className="input-field mb-4"
+                    placeholder="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <input
+                    className="input-field mb-6"
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button
+                    onClick={handleRegister}
+                    className="btn-primary w-full"
+                >
+                    Register
+                </button>
+
+                <p className="mt-6 text-center text-sm text-gray-500">
+                    Already have an account?{" "}
+                    <Link
+                        href="/login"
+                        className="text-[var(--primary)] font-medium hover:underline"
+                    >
+                        Login
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 }

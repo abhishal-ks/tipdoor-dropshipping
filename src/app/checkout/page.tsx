@@ -13,6 +13,15 @@ type CartItem = {
     };
 };
 
+const LABELS: Record<string, string> = {
+    name: "Full Name",
+    phone: "Phone",
+    address: "Street Address",
+    city: "City",
+    state: "State",
+    pincode: "Pincode",
+};
+
 const loadRazorpay = () => {
     return new Promise<boolean>((resolve) => {
         const script = document.createElement("script");
@@ -77,7 +86,6 @@ export default function CheckoutPage() {
 
         if (!loaded) return alert("Razorpay SDK failed to load");
 
-        // 📝 Create order
         const orderRes = await fetch("/api/payment/create-order", {
             method: "POST",
             headers: {
@@ -120,9 +128,6 @@ export default function CheckoutPage() {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-                // razorpay_order_id: response.razorpay_order_id,
-                // razorpay_payment_id: response.razorpay_payment_id,
-                // razorpay_signature: response.razorpay_signature,
                 ...response,
                 amount: totalAmount,
                 shippingAddress: address
@@ -139,45 +144,74 @@ export default function CheckoutPage() {
         }
     };
 
-    if (loading) return <div className="p-6">Loading...</div>;
+    if (loading)
+        return (
+            <div className="flex min-h-[60vh] items-center justify-center">
+                <div className="loading-spinner" />
+            </div>
+        );
 
     return (
-        <div className="max-w-5xl mx-auto p-6 grid md:grid-cols-2 gap-8">
-            <div>
-                <h2 className="text-xl font-bold mb-4">Shipping Address</h2>
+        <div className="max-w-5xl mx-auto px-6 py-12">
+            <h1 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
+                <span className="w-1 h-8 bg-[var(--primary)] rounded-full" />
+                Checkout
+            </h1>
 
-                {Object.keys(address).map((key) => (
-                    <input
-                        key={key}
-                        placeholder={key}
-                        className="border p-3 mb-3 w-full rounded"
-                        onChange={(e) =>
-                            setAddress({ ...address, [key]: e.target.value })
-                        }
-                    />
-                ))}
-            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+                <div className="card p-6">
+                    <h2 className="text-xl font-bold mb-6 text-gray-900">
+                        Shipping Address
+                    </h2>
 
-            <div>
-                <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+                    {Object.keys(address).map((key) => (
+                        <input
+                            key={key}
+                            placeholder={LABELS[key as keyof typeof LABELS] || key}
+                            className="input-field mb-4"
+                            value={address[key as keyof typeof address]}
+                            onChange={(e) =>
+                                setAddress({
+                                    ...address,
+                                    [key]: e.target.value,
+                                })
+                            }
+                        />
+                    ))}
+                </div>
 
-                {cart.map((item) => (
-                    <div key={item._id} className="flex justify-between mb-2">
-                        <span>{item.product.name}</span>
-                        <span>₹{item.product.price * item.quantity}</span>
-                    </div>
-                ))}
+                <div className="card p-6 h-fit">
+                    <h2 className="text-xl font-bold mb-6 text-gray-900">
+                        Order Summary
+                    </h2>
 
-                <hr className="my-3" />
+                    {cart.map((item) => (
+                        <div
+                            key={item._id}
+                            className="flex justify-between mb-3 text-sm"
+                        >
+                            <span className="text-gray-700">
+                                {item.product.name} x{item.quantity}
+                            </span>
+                            <span className="font-medium">
+                                ₹{item.product.price * item.quantity}
+                            </span>
+                        </div>
+                    ))}
 
-                <p className="font-bold mb-4">Total: ₹{totalAmount}</p>
+                    <hr className="my-4 border-gray-200" />
 
-                <button
-                    onClick={handleCheckout}
-                    className="bg-[#5e17eb] text-white px-6 py-3 rounded"
-                >
-                    Pay Now
-                </button>
+                    <p className="font-bold text-lg mb-6">
+                        Total: ₹{totalAmount}
+                    </p>
+
+                    <button
+                        onClick={handleCheckout}
+                        className="btn-primary w-full"
+                    >
+                        Pay Now
+                    </button>
+                </div>
             </div>
         </div>
     );
