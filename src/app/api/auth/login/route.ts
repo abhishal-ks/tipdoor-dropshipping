@@ -1,5 +1,5 @@
-export const dynamic = "force-dynamic";
 "use client";
+export const dynamic = "force-dynamic";
 
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
