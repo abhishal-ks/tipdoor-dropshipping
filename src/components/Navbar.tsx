@@ -69,7 +69,9 @@ export default function Navbar() {
                     {!loggedIn ? (
                         <Link href="/login">Login</Link>
                     ) : (
-                        <button onClick={logout} className="text-red-500">
+                        <button
+                        onClick={logout}
+                        className="cursor-pointer text-red-500 hover:bg-red-400 hover:text-white px-3 py-1.5 rounded-full">
                             Logout
                         </button>
                     )}

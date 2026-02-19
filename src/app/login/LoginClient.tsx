@@ -23,10 +23,20 @@ export default function LoginClient() {
 
         if (data.token) {
             localStorage.setItem("token", data.token);
-            router.push(redirect);
-        } else {
-            alert(data.error);
+
+            const me = await fetch("/api/auth/me", {
+                headers: { Authorization: `Bearer ${data.token}` },
+            });
+
+            const user = await me.json();
+
+            if (user.user?.role === "admin") {
+                router.push("/admin");
+            } else {
+                router.push(redirect);
+            }
         }
+
     };
 
     return (
