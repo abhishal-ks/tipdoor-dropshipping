@@ -54,6 +54,12 @@ export default function AdminProducts() {
         });
 
         fetchProducts();
+
+        // Show an alert with the product name that was deleted
+        const deletedProduct = products.find((p) => p._id === id);
+        if (deletedProduct) {
+            alert(`Deleted product: ${deletedProduct.name}`);
+        }
     };
 
     return (
@@ -99,7 +105,7 @@ export default function AdminProducts() {
 
                     <button
                         onClick={() => deleteProduct(p._id)}
-                        className="text-red-500"
+                        className="text-red-500 cursor-pointer hover:bg-red-500 hover:text-white px-2.5 py-1 rounded-xl"
                     >
                         Delete
                     </button>

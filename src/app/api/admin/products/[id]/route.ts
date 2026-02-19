@@ -5,14 +5,17 @@ import { requireAdmin } from "@/lib/admin";
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     const admin = requireAdmin(req);
     if (!admin)
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     await connectDB();
-    await Product.findByIdAndDelete(params.id);
+
+    const { id } = await context.params;
+
+    await Product.findByIdAndDelete(id);
 
     return NextResponse.json({ success: true });
 }
