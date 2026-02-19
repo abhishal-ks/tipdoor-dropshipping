@@ -4,11 +4,18 @@ import { useEffect, useState } from "react";
 
 export default function AdminProducts() {
     const [products, setProducts] = useState<any[]>([]);
-    const [form, setForm] = useState({
+    const [form, setForm] = useState<{
+        name: string;
+        price: string;
+        description: string;
+        image: string;
+        file: File | null;
+    }>({
         name: "",
         price: "",
         image: "",
         description: "",
+        file: null,
     });
 
     useEffect(() => {
@@ -29,6 +36,19 @@ export default function AdminProducts() {
     const createProduct = async () => {
         const token = localStorage.getItem("token");
 
+        const fd = new FormData();
+
+        if (!form.file) return alert("Please select image");
+        fd.append("file", form.file);
+
+        const uploadRes = await fetch("/api/admin/upload", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+            body: fd,
+        });
+
+        const upload = await uploadRes.json();
+
         await fetch("/api/admin/products", {
             method: "POST",
             headers: {
@@ -36,12 +56,21 @@ export default function AdminProducts() {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-                ...form,
+                name: form.name,
                 price: Number(form.price),
+                description: form.description,
+                image: upload.url,
             }),
         });
 
-        setForm({ name: "", price: "", image: "", description: "" });
+        setForm({
+            name: "",
+            price: "",
+            image: "",
+            description: "",
+            file: null,
+        });
+
         fetchProducts();
     };
 
@@ -66,11 +95,11 @@ export default function AdminProducts() {
         <div className="max-w-6xl mx-auto p-6">
             <h1 className="text-3xl font-bold mb-6">Admin Products</h1>
 
-            {/* Add Product */}
+            {/* ➕ Add Product */}
             <div className="border p-4 mb-6 rounded">
                 <h2 className="font-semibold mb-3">Add Product</h2>
 
-                {["name", "price", "image", "description"].map((f) => (
+                {["name", "price", "description"].map((f) => (
                     <input
                         key={f}
                         placeholder={f}
@@ -81,6 +110,14 @@ export default function AdminProducts() {
                         className="border p-2 mb-2 w-full rounded"
                     />
                 ))}
+
+                <input
+                    type="file"
+                    onChange={(e: any) =>
+                        setForm({ ...form, file: e.target.files[0] })
+                    }
+                    className="border p-2 mb-2 w-full rounded"
+                />
 
                 <button
                     onClick={createProduct}
