@@ -39,7 +39,7 @@ export default function ImageCarousel({
     if (images.length === 0) return null;
 
     return (
-        <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-2xl shadow-2xl">
+        <div className="relative w-full h-[200px] sm:h-[250px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-2xl shadow-2xl">
             {/* Images Container */}
             <div
                 className="flex transition-transform duration-700 ease-in-out h-full"
@@ -67,11 +67,11 @@ export default function ImageCarousel({
                 <>
                     <button
                         onClick={goToPrevious}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-200 hover:scale-110 z-10"
+                        className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 md:p-3 rounded-full transition-all duration-200 hover:scale-110 z-10"
                         aria-label="Previous image"
                     >
                         <svg
-                            className="w-6 h-6"
+                            className="w-4 h-4 md:w-6 md:h-6"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -108,15 +108,15 @@ export default function ImageCarousel({
 
             {/* Dots Indicator */}
             {images.length > 1 && (
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                <div className="absolute bottom-2 md:bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 md:gap-2 z-10">
                     {images.map((_, index) => (
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`h-2 rounded-full transition-all duration-300 ${
+                            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
                                 index === currentIndex
-                                    ? "w-8 bg-white"
-                                    : "w-2 bg-white/50 hover:bg-white/75"
+                                    ? "w-6 md:w-8 bg-white"
+                                    : "w-1.5 md:w-2 bg-white/50 hover:bg-white/75"
                             }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
