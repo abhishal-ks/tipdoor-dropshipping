@@ -41,12 +41,13 @@ export default function LoginClient() {
     return (
         <div className="min-h-[70vh] flex items-center justify-center px-6 py-12">
             <div
-                className="card p-8 w-full max-w-md"
+                className="card p-10 w-full max-w-md animate-fade-in glow"
                 style={{ maxWidth: "28rem" }}
             >
-                <h1 className="text-2xl font-bold mb-6 text-gray-900">
+                <h1 className="text-3xl font-bold mb-2 text-[var(--foreground)] gradient-text">
                     Login
                 </h1>
+                <p className="text-[var(--muted-foreground)] mb-8">Welcome back!</p>
 
                 <input
                     className="input-field mb-4"
@@ -66,12 +67,12 @@ export default function LoginClient() {
 
                 <button
                     onClick={handleLogin}
-                    className="btn-primary w-full"
+                    className="btn-primary w-full text-lg py-3"
                 >
                     Login
                 </button>
 
-                <p className="mt-6 text-center text-sm text-gray-500">
+                <p className="mt-6 text-center text-sm text-[var(--muted-foreground)]">
                     Don&apos;t have an account?{" "}
                     <Link
                         href="/register"

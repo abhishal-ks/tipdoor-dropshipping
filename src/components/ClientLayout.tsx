@@ -16,10 +16,10 @@ export default function ClientLayout({
         <>
             {!isAdmin && <Navbar />}
             <main
-                className={`min-h-screen ${
+                className={`min-h-screen transition-colors duration-300 ${
                     isAdmin
-                        ? "bg-gray-50"
-                        : "bg-gradient-to-b from-[#5f18eb15] via-transparent to-[#5f18eb08]"
+                        ? "bg-gray-50 dark:bg-[var(--background)]"
+                        : "bg-gradient-to-b from-[#5f18eb08] via-transparent to-[#5f18eb15] dark:from-[#5f18eb15] dark:via-transparent dark:to-[#5f18eb08]"
                 }`}
             >
                 {children}

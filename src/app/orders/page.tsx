@@ -54,30 +54,34 @@ export default function OrdersPage() {
         );
 
     return (
-        <div className="max-w-5xl mx-auto px-6 py-12">
-            <h1 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
-                <span className="w-1 h-8 bg-[var(--primary)] rounded-full" />
-                Your Orders
+        <div className="max-w-5xl mx-auto px-6 py-12 animate-fade-in">
+            <h1 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3">
+                <span className="w-2 h-10 bg-gradient-to-b from-[var(--primary)] to-[var(--primary-light)] rounded-full" />
+                <span className="gradient-text">Your Orders</span>
             </h1>
 
             {orders.length === 0 && (
                 <div className="card p-12 text-center">
-                    <p className="text-gray-600">No orders yet.</p>
+                    <p className="text-[var(--muted-foreground)] text-lg">No orders yet.</p>
                 </div>
             )}
 
-            {orders.map((order) => (
-                <div key={order._id} className="card p-6 mb-6">
-                    <div className="flex justify-between items-start mb-4">
-                        <p className="font-semibold text-gray-900">
+            {orders.map((order, index) => (
+                <div
+                    key={order._id}
+                    className="card p-6 mb-6 animate-fade-in"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                    <div className="flex justify-between items-start mb-4 pb-4 border-b border-[var(--border)]">
+                        <p className="font-semibold text-[var(--foreground)] text-lg">
                             Order #{order._id.slice(-6)}
                         </p>
-                        <p className="text-lg font-bold text-[var(--primary)]">
+                        <p className="text-2xl font-bold text-[var(--primary)]">
                             ₹{order.amount}
                         </p>
                     </div>
 
-                    <p className="text-sm text-gray-500 mb-6">
+                    <p className="text-sm text-[var(--muted-foreground)] mb-6">
                         {new Date(order.createdAt).toLocaleString()}
                     </p>
 
@@ -85,7 +89,7 @@ export default function OrdersPage() {
                         {order.items.map((item, i) => (
                             <div
                                 key={i}
-                                className="flex gap-4 items-center py-2"
+                                className="flex gap-4 items-center py-3 border-b border-[var(--border)] last:border-0"
                             >
                                 <img
                                     src={item.image}
@@ -94,15 +98,15 @@ export default function OrdersPage() {
                                 />
 
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-gray-900">
+                                    <p className="font-medium text-[var(--foreground)]">
                                         {item.name}
                                     </p>
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-[var(--muted-foreground)]">
                                         Qty: {item.quantity}
                                     </p>
                                 </div>
 
-                                <p className="font-medium">
+                                <p className="font-medium text-[var(--foreground)]">
                                     ₹{item.price * item.quantity}
                                 </p>
                             </div>

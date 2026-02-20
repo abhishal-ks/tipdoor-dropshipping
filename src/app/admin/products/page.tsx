@@ -92,8 +92,8 @@ export default function AdminProducts() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto px-6 py-8">
-            <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-6 py-8 animate-fade-in">
+            <header className="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border)]">
                 <div className="flex items-center gap-4">
                     <Link
                         href="/admin"
@@ -101,16 +101,17 @@ export default function AdminProducts() {
                     >
                         ← Dashboard
                     </Link>
-                    <span className="text-gray-300">|</span>
-                    <h1 className="text-2xl font-bold text-gray-900">
+                    <span className="text-[var(--muted-foreground)]">|</span>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)] gradient-text">
                         Admin Products
                     </h1>
                 </div>
             </header>
 
             {/* Add Product */}
-            <div className="card p-6 mb-8">
-                <h2 className="text-lg font-semibold mb-4 text-gray-900">
+            <div className="card p-6 mb-8 glow">
+                <h2 className="text-lg font-semibold mb-4 text-[var(--foreground)] flex items-center gap-2">
+                    <span className="w-1 h-6 bg-[var(--primary)] rounded-full" />
                     Add Product
                 </h2>
 
@@ -141,7 +142,7 @@ export default function AdminProducts() {
             </div>
 
             {/* Products List */}
-            <h2 className="text-lg font-semibold mb-4 text-gray-900">
+            <h2 className="text-lg font-semibold mb-4 text-[var(--foreground)]">
                 Products
             </h2>
             {products.map((p) => (
@@ -156,7 +157,7 @@ export default function AdminProducts() {
                     />
 
                     <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-gray-900">{p.name}</p>
+                        <p className="font-semibold text-[var(--foreground)]">{p.name}</p>
                         <p className="text-[var(--primary)] font-medium">
                             ₹{p.price}
                         </p>
@@ -164,7 +165,7 @@ export default function AdminProducts() {
 
                     <button
                         onClick={() => deleteProduct(p._id)}
-                        className="text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg font-medium transition-colors"
+                        className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 px-4 py-2 rounded-lg font-medium transition-all duration-200"
                     >
                         Delete
                     </button>

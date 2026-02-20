@@ -152,15 +152,16 @@ export default function CheckoutPage() {
         );
 
     return (
-        <div className="max-w-5xl mx-auto px-6 py-12">
-            <h1 className="text-2xl md:text-3xl font-bold mb-8 flex items-center gap-2">
-                <span className="w-1 h-8 bg-[var(--primary)] rounded-full" />
-                Checkout
+        <div className="max-w-5xl mx-auto px-6 py-12 animate-fade-in">
+            <h1 className="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3">
+                <span className="w-2 h-10 bg-gradient-to-b from-[var(--primary)] to-[var(--primary-light)] rounded-full" />
+                <span className="gradient-text">Checkout</span>
             </h1>
 
             <div className="grid md:grid-cols-2 gap-8">
                 <div className="card p-6">
-                    <h2 className="text-xl font-bold mb-6 text-gray-900">
+                    <h2 className="text-xl font-bold mb-6 text-[var(--foreground)] flex items-center gap-2">
+                        <span className="w-1 h-6 bg-[var(--primary)] rounded-full" />
                         Shipping Address
                     </h2>
 
@@ -180,36 +181,37 @@ export default function CheckoutPage() {
                     ))}
                 </div>
 
-                <div className="card p-6 h-fit">
-                    <h2 className="text-xl font-bold mb-6 text-gray-900">
+                <div className="card p-6 h-fit glow">
+                    <h2 className="text-xl font-bold mb-6 text-[var(--foreground)] flex items-center gap-2">
+                        <span className="w-1 h-6 bg-[var(--primary)] rounded-full" />
                         Order Summary
                     </h2>
 
                     {cart.map((item) => (
                         <div
                             key={item._id}
-                            className="flex justify-between mb-3 text-sm"
+                            className="flex justify-between mb-3 text-sm py-2 border-b border-[var(--border)]"
                         >
-                            <span className="text-gray-700">
+                            <span className="text-[var(--muted-foreground)]">
                                 {item.product.name} x{item.quantity}
                             </span>
-                            <span className="font-medium">
+                            <span className="font-medium text-[var(--foreground)]">
                                 ₹{item.product.price * item.quantity}
                             </span>
                         </div>
                     ))}
 
-                    <hr className="my-4 border-gray-200" />
+                    <hr className="my-4 border-[var(--border)]" />
 
-                    <p className="font-bold text-lg mb-6">
+                    <p className="font-bold text-2xl mb-6 text-[var(--foreground)]">
                         Total: ₹{totalAmount}
                     </p>
 
                     <button
                         onClick={handleCheckout}
-                        className="btn-primary w-full"
+                        className="btn-primary w-full text-lg py-4"
                     >
-                        Pay Now
+                        Pay Now →
                     </button>
                 </div>
             </div>

@@ -33,12 +33,13 @@ export default function RegisterClient() {
     return (
         <div className="min-h-[70vh] flex items-center justify-center px-6 py-12">
             <div
-                className="card p-8 w-full max-w-md"
+                className="card p-10 w-full max-w-md animate-fade-in glow"
                 style={{ maxWidth: "28rem" }}
             >
-                <h1 className="text-2xl font-bold mb-6 text-gray-900">
+                <h1 className="text-3xl font-bold mb-2 text-[var(--foreground)] gradient-text">
                     Register
                 </h1>
+                <p className="text-[var(--muted-foreground)] mb-8">Create your account</p>
 
                 <input
                     className="input-field mb-4"
@@ -65,12 +66,12 @@ export default function RegisterClient() {
 
                 <button
                     onClick={handleRegister}
-                    className="btn-primary w-full"
+                    className="btn-primary w-full text-lg py-3"
                 >
                     Register
                 </button>
 
-                <p className="mt-6 text-center text-sm text-gray-500">
+                <p className="mt-6 text-center text-sm text-[var(--muted-foreground)]">
                     Already have an account?{" "}
                     <Link
                         href="/login"

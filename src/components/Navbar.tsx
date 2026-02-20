@@ -50,28 +50,55 @@ export default function Navbar() {
     };
 
     const navLink =
-        "text-gray-700 hover:text-[var(--primary)] font-medium transition-colors px-3 py-2 rounded-lg hover:bg-[var(--primary-muted)]";
+        "text-[var(--foreground)] hover:text-[var(--primary)] font-medium transition-all duration-200 px-3 py-2 rounded-lg hover:bg-[var(--primary-muted)] relative group";
 
     return (
-        <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <nav className="sticky top-0 z-50 bg-[var(--surface)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-lg">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
                 <Link
                     href="/"
-                    className="text-xl font-bold text-[var(--primary)] hover:text-[var(--primary-dark)] transition-colors"
+                    className="flex items-center gap-2 hover:scale-105 transition-transform duration-200"
                 >
-                    TipDoor
+                    {/* Logo Image - Place your logo at public/logo.png or public/logo.svg */}
+                    <img
+                        src="/logo.png"
+                        alt="TipDoor Logo"
+                        className="h-12 md:h-14 w-auto"
+                        onError={(e) => {
+                            // Fallback to text if logo not found
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = "none";
+                            const parent = target.parentElement;
+                            if (parent && !parent.querySelector(".logo-text")) {
+                                const text = document.createElement("span");
+                                text.className = "logo-text text-2xl font-bold gradient-text";
+                                text.textContent = "TipDoor";
+                                parent.appendChild(text);
+                            }
+                        }}
+                    />
+                    <span className="text-2xl font-bold gradient-text hidden logo-text">
+                        TipDoor
+                    </span>
                 </Link>
 
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-2 items-center">
                     <Link href="/cart" className={navLink}>
-                        Cart ({cartCount})
+                        <span className="relative">
+                            Cart ({cartCount})
+                            {cartCount > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-[var(--primary)] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </span>
                     </Link>
                     <Link href="/orders" className={navLink}>
                         Orders
                     </Link>
 
                     {loggedIn && (
-                        <span className="text-sm text-gray-600 ml-2 px-3 py-1.5 bg-gray-100 rounded-full">
+                        <span className="text-sm text-[var(--muted-foreground)] ml-2 px-4 py-2 bg-[var(--surface-elevated)] rounded-full border border-[var(--border)]">
                             Hi, {userName}
                         </span>
                     )}
@@ -79,14 +106,14 @@ export default function Navbar() {
                     {!loggedIn ? (
                         <Link
                             href="/login"
-                            className="ml-2 bg-[var(--primary)] text-white px-4 py-2 rounded-lg font-medium hover:bg-[var(--primary-dark)] transition-colors"
+                            className="ml-2 btn-primary"
                         >
                             Login
                         </Link>
                     ) : (
                         <button
                             onClick={logout}
-                            className="ml-2 cursor-pointer text-red-600 hover:bg-red-50 hover:text-red-700 px-4 py-2 rounded-lg font-medium transition-colors"
+                            className="ml-2 cursor-pointer text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 px-4 py-2 rounded-lg font-medium transition-all duration-200"
                         >
                             Logout
                         </button>

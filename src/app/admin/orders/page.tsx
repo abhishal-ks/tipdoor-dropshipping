@@ -31,8 +31,8 @@ export default function AdminOrdersPage() {
     };
 
     return (
-        <div className="max-w-6xl mx-auto px-6 py-8">
-            <header className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-6 py-8 animate-fade-in">
+            <header className="flex justify-between items-center mb-8 pb-4 border-b border-[var(--border)]">
                 <div className="flex items-center gap-4">
                     <Link
                         href="/admin"
@@ -40,38 +40,38 @@ export default function AdminOrdersPage() {
                     >
                         ← Dashboard
                     </Link>
-                    <span className="text-gray-300">|</span>
-                    <h1 className="text-2xl font-bold text-gray-900">
+                    <span className="text-[var(--muted-foreground)]">|</span>
+                    <h1 className="text-2xl font-bold text-[var(--foreground)] gradient-text">
                         Admin Orders
                     </h1>
                 </div>
             </header>
 
-            {orders.map((order) => (
-                <div key={order._id} className="card p-6 mb-6">
-                    <div className="mb-4 pb-4 border-b border-gray-200">
+            {orders.map((order, index) => (
+                <div key={order._id} className="card p-6 mb-6 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                    <div className="mb-4 pb-4 border-b border-[var(--border)]">
                         <p className="text-sm font-semibold text-[var(--primary)] mb-1">
                             Customer
                         </p>
-                        <p className="text-gray-900">
+                        <p className="text-[var(--foreground)]">
                             {order.user?.name} ({order.user?.email})
                         </p>
                     </div>
 
-                    <div className="mb-4 pb-4 border-b border-gray-200">
+                    <div className="mb-4 pb-4 border-b border-[var(--border)]">
                         <p className="text-sm font-semibold text-[var(--primary)] mb-1">
                             Phone
                         </p>
-                        <p className="text-gray-700">
+                        <p className="text-[var(--muted-foreground)]">
                             {order.shippingAddress?.phone}
                         </p>
                     </div>
 
-                    <div className="mb-4 pb-4 border-b border-gray-200">
+                    <div className="mb-4 pb-4 border-b border-[var(--border)]">
                         <p className="text-sm font-semibold text-[var(--primary)] mb-1">
                             Address
                         </p>
-                        <p className="text-gray-700">
+                        <p className="text-[var(--muted-foreground)]">
                             {order.shippingAddress?.address},{" "}
                             {order.shippingAddress?.city},{" "}
                             {order.shippingAddress?.state} -{" "}
@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
                     {order.items.map((item: any, i: number) => (
                         <div
                             key={i}
-                            className="flex gap-4 items-center py-3 mb-2"
+                            className="flex gap-4 items-center py-3 mb-2 border-b border-[var(--border)] last:border-0"
                         >
                             <img
                                 src={item.image}
@@ -94,21 +94,21 @@ export default function AdminOrdersPage() {
                                 className="w-14 h-14 object-cover rounded-lg"
                             />
                             <div className="flex-1 min-w-0">
-                                <p className="font-medium text-gray-900">
+                                <p className="font-medium text-[var(--foreground)]">
                                     {item.name}
                                 </p>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-[var(--muted-foreground)]">
                                     Qty: {item.quantity}
                                 </p>
                             </div>
-                            <p className="font-medium">
+                            <p className="font-medium text-[var(--foreground)]">
                                 ₹{item.price * item.quantity}
                             </p>
                         </div>
                     ))}
 
-                    <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
-                        <span className="text-sm text-gray-500">
+                    <div className="mt-4 pt-4 border-t border-[var(--border)] flex justify-between items-center">
+                        <span className="text-sm text-[var(--muted-foreground)]">
                             {new Date(order.createdAt).toLocaleString()}
                         </span>
                         <span className="text-lg font-bold text-[var(--primary)]">

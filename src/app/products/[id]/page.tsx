@@ -59,7 +59,7 @@ export default function ProductPage() {
     if (!product)
         return (
             <div className="max-w-5xl mx-auto p-6 text-center">
-                <p className="text-gray-600 mb-4">Product not found</p>
+                <p className="text-[var(--muted-foreground)] mb-4">Product not found</p>
                 <Link
                     href="/"
                     className="text-[var(--primary)] font-medium hover:underline"
@@ -70,31 +70,32 @@ export default function ProductPage() {
         );
 
     return (
-        <div className="max-w-5xl mx-auto px-6 py-12">
-            <div className="card overflow-hidden grid md:grid-cols-2 gap-8 p-0">
-                <div className="bg-gray-100">
+        <div className="max-w-5xl mx-auto px-6 py-12 animate-fade-in">
+            <div className="card overflow-hidden grid md:grid-cols-2 gap-0">
+                <div className="bg-gray-100 dark:bg-gray-800 relative group overflow-hidden">
                     <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-[400px] object-cover"
+                        className="w-full h-[400px] md:h-[500px] object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
 
-                <div className="p-8 flex flex-col">
-                    <h1 className="text-3xl font-bold mb-3 text-gray-900">
+                <div className="p-8 md:p-10 flex flex-col bg-[var(--surface)]">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-4 text-[var(--foreground)]">
                         {product.name}
                     </h1>
-                    <p className="text-2xl text-[var(--primary)] font-semibold mb-4">
+                    <p className="text-3xl font-bold text-[var(--primary)] mb-6">
                         ₹{product.price}
                     </p>
 
-                    <p className="text-gray-600 mb-6 flex-1">
+                    <p className="text-[var(--muted-foreground)] mb-8 flex-1 leading-relaxed">
                         {product.description || "No description available."}
                     </p>
 
                     <button
                         onClick={addToCart}
-                        className="btn-primary w-full md:w-auto"
+                        className="btn-primary w-full md:w-auto text-lg py-4"
                     >
                         Add to Cart
                     </button>
