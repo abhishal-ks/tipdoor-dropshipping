@@ -86,11 +86,11 @@ export default function ImageCarousel({
                     </button>
                     <button
                         onClick={goToNext}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-200 hover:scale-110 z-10"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2 md:p-3 rounded-full transition-all duration-200 hover:scale-110 z-10"
                         aria-label="Next image"
                     >
                         <svg
-                            className="w-6 h-6"
+                            className="w-4 h-4 md:w-6 md:h-6"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -113,11 +113,10 @@ export default function ImageCarousel({
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
-                                index === currentIndex
+                            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${index === currentIndex
                                     ? "w-6 md:w-8 bg-white"
                                     : "w-1.5 md:w-2 bg-white/50 hover:bg-white/75"
-                            }`}
+                                }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}
